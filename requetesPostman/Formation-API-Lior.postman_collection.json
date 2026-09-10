@@ -1,0 +1,141 @@
+{
+  "info": {
+    "_postman_id": "1e0a26d8-d0da-4594-ac8d-4915088d58f7",
+    "name": "Formation-API-Lior",
+    "description": "Requêtes HTTP utilisées pour tester APIP pdt la formation avec Lior",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "17980518"
+  },
+  "item": [
+    {
+      "name": "GET customers",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/ld+json"
+          },
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "url": {
+          "raw": "https://127.0.0.1:8000/api/customers?pagination=true&count=3",
+          "protocol": "https",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "customers"
+          ],
+          "query": [
+            {
+              "key": "pagination",
+              "value": "true"
+            },
+            {
+              "key": "count",
+              "value": "3"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Une Facture",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/ld+json"
+          }
+        ],
+        "url": {
+          "raw": "https://127.0.0.1:8000/api/invoices/1710",
+          "protocol": "https",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "invoices",
+            "1710"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Customers Page 4",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://127.0.0.1:8000/api/customers?page=4",
+          "protocol": "https",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "customers"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "4"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET invoices",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/ld+json"
+          }
+        ],
+        "url": {
+          "raw": "https://127.0.0.1:8000/api/invoices/",
+          "protocol": "https",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "invoices",
+            ""
+          ]
+        },
+        "description": "Obtenir les liste des factures (invoices)"
+      },
+      "response": []
+    }
+  ]
+}
