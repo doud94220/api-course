@@ -2,10 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\InvoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
+#[ApiResource(
+    paginationEnabled: true,
+    paginationItemsPerPage: 20,
+    order: ['sentAt' => 'DESC']
+)]
 class Invoice
 {
     #[ORM\Id]
