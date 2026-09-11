@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\InvoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
     paginationItemsPerPage: 20,
     order: ['sentAt' => 'DESC']
 )]
+#[ApiFilter(OrderFilter::class, properties: ["amount", "sentAt"])]
 class Invoice
 {
     #[ORM\Id]

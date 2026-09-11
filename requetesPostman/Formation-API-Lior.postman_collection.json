@@ -8,7 +8,7 @@
   },
   "item": [
     {
-      "name": "GET customers",
+      "name": "GET ALL customers",
       "request": {
         "method": "GET",
         "header": [
@@ -22,7 +22,39 @@
           }
         ],
         "url": {
-          "raw": "https://127.0.0.1:8000/api/customers?pagination=true&count=3",
+          "raw": "https://127.0.0.1:8000/api/customers",
+          "protocol": "https",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "customers"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET ONE customer from invoice number",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/ld+json"
+          },
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "url": {
+          "raw": "https://127.0.0.1:8000/api/customers?invoices.id=1950",
           "protocol": "https",
           "host": [
             "127",
@@ -37,12 +69,8 @@
           ],
           "query": [
             {
-              "key": "pagination",
-              "value": "true"
-            },
-            {
-              "key": "count",
-              "value": "3"
+              "key": "invoices.id",
+              "value": "1950"
             }
           ]
         }
@@ -50,7 +78,7 @@
       "response": []
     },
     {
-      "name": "Une Facture",
+      "name": "GET ONE invoice by id",
       "request": {
         "method": "GET",
         "header": [
@@ -79,7 +107,7 @@
       "response": []
     },
     {
-      "name": "Customers Page 4",
+      "name": "GET SOME customers on page 4",
       "request": {
         "method": "GET",
         "header": [],
@@ -108,7 +136,7 @@
       "response": []
     },
     {
-      "name": "GET invoices",
+      "name": "GET ALL invoices",
       "request": {
         "method": "GET",
         "header": [
@@ -118,7 +146,7 @@
           }
         ],
         "url": {
-          "raw": "https://127.0.0.1:8000/api/invoices/",
+          "raw": "https://127.0.0.1:8000/api/invoices?order[status]=asc",
           "protocol": "https",
           "host": [
             "127",
@@ -129,8 +157,13 @@
           "port": "8000",
           "path": [
             "api",
-            "invoices",
-            ""
+            "invoices"
+          ],
+          "query": [
+            {
+              "key": "order[status]",
+              "value": "asc"
+            }
           ]
         },
         "description": "Obtenir les liste des factures (invoices)"
