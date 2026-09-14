@@ -136,7 +136,7 @@
       "response": []
     },
     {
-      "name": "GET ALL invoices",
+      "name": "GET ALL invoices ordered by status asc",
       "request": {
         "method": "GET",
         "header": [
@@ -164,6 +164,35 @@
               "key": "order[status]",
               "value": "asc"
             }
+          ]
+        },
+        "description": "Obtenir les liste des factures (invoices)"
+      },
+      "response": []
+    },
+    {
+      "name": "GET ALL invoices",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/ld+json"
+          }
+        ],
+        "url": {
+          "raw": "https://127.0.0.1:8000/api/invoices",
+          "protocol": "https",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "invoices"
           ]
         },
         "description": "Obtenir les liste des factures (invoices)"

@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     // paginationEnabled: true,
     // paginationItemsPerPage: 5
-    normalizationContext: ['groups' => ['customers_read']] //On peut remplacer 'customers_read' par ce qu'on veut
+    normalizationContext: ['groups' => ['customers_read']] //On peut remplacer l'étiquette 'customers_read' par ce qu'on veut
 )]
 #[ApiFilter(SearchFilter::class, properties: ["firstName" => 'partial', "lastName", "company", "invoices.id"])]
 #[ApiFilter(OrderFilter::class)]
@@ -25,23 +25,23 @@ class Customer
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['customers_read'])]
+    #[Groups(['customers_read', 'invoices_read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customers_read'])]
+    #[Groups(['customers_read', 'invoices_read'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customers_read'])]
+    #[Groups(['customers_read', 'invoices_read'])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customers_read'])]
+    #[Groups(['customers_read', 'invoices_read'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['customers_read'])]
+    #[Groups(['customers_read', 'invoices_read'])]
     private ?string $company = null;
 
     #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'customer')]
@@ -49,7 +49,7 @@ class Customer
     private Collection $invoices;
 
     #[ORM\ManyToOne(inversedBy: 'customers')]
-    #[Groups(['customers_read'])]
+    #[Groups(['customers_read', 'invoices_read'])]
     private ?User $user = null;
 
     public function __construct()
