@@ -57,6 +57,29 @@ class Customer
         $this->invoices = new ArrayCollection();
     }
 
+    /**
+     * Permet de récupérer le total des invoices pour un client
+     * Groups(['customers_read') //Ca marche pas ici...
+     * @return float
+     */
+    #[Groups(['customers_read'])]
+    public function getTotalAmount(): float
+    {
+        return array_reduce($this->invoices->toArray(), function($total, $invoice)
+        {
+            return round($total + $invoice->getAmount(), 2);
+        }, 0);
+    }
+
+    public function getUnpaidAmount(): float
+    {
+        return array_reduce($this->invoices->toArray(), function($total, $invoice)
+        {
+            return
+        }
+
+    }
+
     public function getId(): ?int
     {
         return $this->id;
