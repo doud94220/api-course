@@ -6,6 +6,13 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,7 +23,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     // paginationEnabled: true,
     // paginationItemsPerPage: 5
-    normalizationContext: ['groups' => ['customers_read']] //On peut remplacer l'étiquette 'customers_read' par ce qu'on veut
+    normalizationContext: ['groups' => ['customers_read']], //On peut remplacer l'étiquette 'customers_read' par ce qu'on veut
+    operations: [//On liste les opérations utilisées => Dans la swagger, on ne vera que les opérations listées ci-dessous
+        new Get(),
+        new Get(
+            uriTemplate: '/customers/{id}/invoices',
+            uriVariables: [
+                            'id' => new Link(fromClass: Customer::class, fromProperty: 'invoices')
+                          ]), //uriTemplate: '/api/clients/{id}' => On peut donner un nouveau path
+        new Post(),
+        new GetCollection(), //uriTemplate: '/api/clients/' => On peut donner un nouveau path
+        new Delete(),
+        new Patch(),
+        new Put()
+    ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ["firstName" => 'partial', "lastName", "company", "invoices.id"])]
 #[ApiFilter(OrderFilter::class)]
@@ -46,10 +66,11 @@ class Customer
 
     #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'customer')]
     #[Groups(['customers_read'])]
+
     private Collection $invoices;
 
     #[ORM\ManyToOne(inversedBy: 'customers')]
-    #[Groups(['customers_read', 'invoices_read'])]
+    #[Groups(['customers_read'])]
     private ?User $user = null;
 
     public function __construct()
@@ -59,7 +80,7 @@ class Customer
 
     /**
      * Permet de récupérer le total des invoices pour un client
-     * Groups(['customers_read') //Ca marche pas ici...
+     * Groups(['customers_read') //Ca marche pas ici le groups...
      * @return float
      */
     #[Groups(['customers_read'])]
@@ -71,13 +92,18 @@ class Customer
         }, 0);
     }
 
+    /**
+     * Récupérer le montant total non payé
+     *
+     * @return float
+     */
+    #[Groups(['customers_read'])]
     public function getUnpaidAmount(): float
     {
-        return array_reduce($this->invoices->toArray(), function($total, $invoice)
+        return array_reduce($this->invoices->toArray(), function($total, Invoice $invoice)
         {
-            return
-        }
-
+            return round($total + ($invoice->getStatus() === "SENT" ? $invoice->getAmount() : 0), 2);
+        }, 0);
     }
 
     public function getId(): ?int

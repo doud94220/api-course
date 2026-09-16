@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use App\Entity\User;
 use App\Repository\InvoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -41,6 +42,17 @@ class Invoice
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['invoices_read'])]    
     private ?Customer $customer = null;
+
+    /**
+     * Permet de récupérer le User à qui appartient la facture
+     *
+     * @return User
+     */
+    #[Groups(['invoices_read'])]
+    public function getUser() : User
+    {
+        return $this->customer->getUser();
+    }
 
     #[ORM\Column]
     #[Groups(['invoices_read', 'customers_read'])]   
