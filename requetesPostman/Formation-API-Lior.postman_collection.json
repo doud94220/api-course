@@ -40,6 +40,40 @@
       "response": []
     },
     {
+      "name": "GET ALL invoices from one customer",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/ld+json"
+          },
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "url": {
+          "raw": "https://127.0.0.1:8000/api/customers/320/invoices",
+          "protocol": "https",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "customers",
+            "320",
+            "invoices"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "GET ONE customer from invoice number",
       "request": {
         "method": "GET",

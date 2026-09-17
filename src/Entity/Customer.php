@@ -23,20 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     // paginationEnabled: true,
     // paginationItemsPerPage: 5
-    normalizationContext: ['groups' => ['customers_read']], //On peut remplacer l'étiquette 'customers_read' par ce qu'on veut
-    operations: [//On liste les opérations utilisées => Dans la swagger, on ne vera que les opérations listées ci-dessous
-        new Get(),
-        new Get(
-            uriTemplate: '/customers/{id}/invoices',
-            uriVariables: [
-                            'id' => new Link(fromClass: Customer::class, fromProperty: 'invoices')
-                          ]), //uriTemplate: '/api/clients/{id}' => On peut donner un nouveau path
-        new Post(),
-        new GetCollection(), //uriTemplate: '/api/clients/' => On peut donner un nouveau path
-        new Delete(),
-        new Patch(),
-        new Put()
-    ]
+    normalizationContext: ['groups' => ['customers_read']] //On peut remplacer l'étiquette 'customers_read' par ce qu'on veut
 )]
 #[ApiFilter(SearchFilter::class, properties: ["firstName" => 'partial', "lastName", "company", "invoices.id"])]
 #[ApiFilter(OrderFilter::class)]
@@ -66,7 +53,8 @@ class Customer
 
     #[ORM\OneToMany(targetEntity: Invoice::class, mappedBy: 'customer')]
     #[Groups(['customers_read'])]
-
+    /* Sous API Platform 3.2, l'annotation @ApiSubresource a complètement disparu au profit du système de configuration
+      des ressources par attributs PHP (#[ApiResource]) et des liens (#[Link]). */
     private Collection $invoices;
 
     #[ORM\ManyToOne(inversedBy: 'customers')]

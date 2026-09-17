@@ -5,6 +5,13 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Entity\User;
 use App\Repository\InvoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +22,24 @@ use Symfony\Component\Serializer\Annotation\Groups;
     paginationEnabled: true,
     paginationItemsPerPage: 20,
     order: ['sentAt' => 'DESC'],
-    normalizationContext: ['groups' => ['invoices_read']]
+    normalizationContext: ['groups' => ['invoices_read']],
+    operations: [//On liste les opérations utilisées => Dans la swagger, on ne vera que les opérations listées ci-dessous
+        new Get(),
+        new Post(),
+        new GetCollection(
+            uriTemplate: 'customers/{id}/invoices', //Nouvelle URL ! Sinon /api est déjà ajouté automatiquement par APIP selon la config globale
+            uriVariables: [
+                            // 'id' correspond au paramètre {id} de l'URL
+                            // fromClass indique que l'on vient de Customer
+                            // toProperty indique la propriété 'customer' dans Invoice, car c'est elle qui permet de remonter jusqu'au customer
+                            'id' => new Link(fromClass: Customer::class, toProperty: 'customer')
+                          ],
+            normalizationContext: ['groups' => ['invoices_subresource']]
+        ),
+        new Delete(),
+        new Patch(),
+        new Put()
+    ]
 )]
 #[ApiFilter(OrderFilter::class, properties: ["amount", "sentAt"])]
 class Invoice
@@ -23,19 +47,19 @@ class Invoice
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['invoices_read', 'customers_read'])]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['invoices_read', 'customers_read'])]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
     private ?float $amount = null;
 
     #[ORM\Column]
-    #[Groups(['invoices_read', 'customers_read'])]    
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]    
     private ?\DateTime $sentAt = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['invoices_read', 'customers_read'])]  
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]  
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
@@ -43,20 +67,20 @@ class Invoice
     #[Groups(['invoices_read'])]    
     private ?Customer $customer = null;
 
+    #[ORM\Column]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]   
+    private ?int $chrono = null;
+
     /**
      * Permet de récupérer le User à qui appartient la facture
      *
      * @return User
      */
-    #[Groups(['invoices_read'])]
+    #[Groups(['invoices_read', 'invoices_subresource'])]
     public function getUser() : User
     {
         return $this->customer->getUser();
     }
-
-    #[ORM\Column]
-    #[Groups(['invoices_read', 'customers_read'])]   
-    private ?int $chrono = null;
 
     public function getId(): ?int
     {

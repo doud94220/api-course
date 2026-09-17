@@ -18,11 +18,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['customers_read', 'invoices_read'])]
+    #[Groups(['customers_read', 'invoices_read', 'invoices_subresource'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['customers_read', 'invoices_read'])]    
+    #[Groups(['customers_read', 'invoices_read', 'invoices_subresource'])]    
     private ?string $email = null;
 
     #[ORM\Column]
@@ -35,11 +35,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customers_read', 'invoices_read'])]    
+    #[Groups(['customers_read', 'invoices_read', 'invoices_subresource'])]    
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customers_read', 'invoices_read'])]    
+    #[Groups(['customers_read', 'invoices_read', 'invoices_subresource'])]    
     private ?string $lastName = null;
 
     #[ORM\OneToMany(targetEntity: Customer::class, mappedBy: 'user')]
