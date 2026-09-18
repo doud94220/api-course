@@ -232,6 +232,45 @@
         "description": "Obtenir les liste des factures (invoices)"
       },
       "response": []
+    },
+    {
+      "name": "POST invoices increment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://127.0.0.1:8000/api/invoices/1570/increment",
+          "protocol": "https",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "invoices",
+            "1570",
+            "increment"
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }

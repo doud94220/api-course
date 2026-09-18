@@ -12,6 +12,8 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model\Operation;
+use App\Controller\InvoiceIncrementationController;
 use App\Entity\User;
 use App\Repository\InvoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +27,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['invoices_read']],
     operations: [//On liste les opérations utilisées => Dans la swagger, on ne vera que les opérations listées ci-dessous
         new Get(),
-        new Post(),
+        new Post(
+        ),
         new GetCollection(
             uriTemplate: 'customers/{id}/invoices', //Nouvelle URL ! Sinon /api est déjà ajouté automatiquement par APIP selon la config globale
             uriVariables: [
@@ -40,6 +43,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Patch(),
         new Put()
     ]
+)]
+//Nouveau path qui servira à incrémenter le chrono d'une favcture donnée
+#[ApiResource(operations: [
+    new Post(
+            uriTemplate: '/invoices/{id}/increment',
+            controller: InvoiceIncrementationController::class,
+            name: 'invoice_increment',
+            read: true, // API Platform récupère automatiquement l'entité Invoice grâce à l'{id} de l'URL
+            openapi: new Operation(//On enrichie les informations qui seront affichées dans la Swagger Interface
+                summary: 'Incrémente le numéro de facture',
+                description: "Incrémente le chrono d'une facture donnée"
+            )
+        )
+    ],
+    normalizationContext: ['groups' => ['invoices_read']]
 )]
 #[ApiFilter(OrderFilter::class, properties: ["amount", "sentAt"])]
 class Invoice
@@ -76,7 +94,7 @@ class Invoice
      *
      * @return User
      */
-    #[Groups(['invoices_read', 'invoices_subresource'])]
+    #[Groups(['invoices_read', 'invoices_subresource'])] 
     public function getUser() : User
     {
         return $this->customer->getUser();
