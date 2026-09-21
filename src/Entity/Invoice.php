@@ -18,6 +18,7 @@ use App\Entity\User;
 use App\Repository\InvoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
 #[ApiResource(
@@ -25,6 +26,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
     paginationItemsPerPage: 20,
     order: ['sentAt' => 'DESC'],
     normalizationContext: ['groups' => ['invoices_read']],
+    // denormalizationContext: [
+    //     'groups' => ['invoices_write'],
+    //     'disable_type_enforcement' => true
+    // ],
     operations: [//On liste les opérations utilisées => Dans la swagger, on ne vera que les opérations listées ci-dessous
         new Get(),
         new Post(
@@ -44,7 +49,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Put()
     ]
 )]
-//Nouveau path qui servira à incrémenter le chrono d'une favcture donnée
+//Nouveau path qui servira à incrémenter le chrono d'une facture donnée
 #[ApiResource(operations: [
     new Post(
             uriTemplate: '/invoices/{id}/increment',
@@ -70,23 +75,38 @@ class Invoice
 
     #[ORM\Column]
     #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
+    #[Assert\NotBlank(message: "Le montant de la fature est obligatoire.")]
+    #[Assert\Type(
+        type: 'numeric',
+        message: 'Le montant de la fature doit être un numérique.',
+    )]
     private ?float $amount = null;
 
     #[ORM\Column]
-    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]    
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
+    #[Assert\DateTime(message: "La date doit être au format YYYY-MM-DD.")]
+    #[Assert\NotBlank(message: "La date d'envoie est obligatoire.")]
     private ?\DateTime $sentAt = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]  
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
+    #[Assert\NotBlank(message: "Le statut est obligatoire.")]
+    #[Assert\Choice(choices: ['SENT', 'PAID', 'CANCELLED'], message: 'Le statut doit être SENT ou PAID ou CANCELLED')]
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['invoices_read'])]    
+    #[Groups(['invoices_read'])]
+    #[Assert\NotBlank(message: "Le customer de la fature est obligatoire.")]
     private ?Customer $customer = null;
 
     #[ORM\Column]
-    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]   
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
+    #[Assert\NotBlank(message: "Le chrono est obligatoire.")]
+    #[Assert\Type(
+        type: 'integer',
+        message: 'Le chrono doit être un integer.',
+    )]
     private ?int $chrono = null;
 
     /**
@@ -110,7 +130,7 @@ class Invoice
         return $this->amount;
     }
 
-    public function setAmount(float $amount): static
+    public function setAmount($amount): static
     {
         $this->amount = $amount;
 

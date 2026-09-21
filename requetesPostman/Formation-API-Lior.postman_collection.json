@@ -271,6 +271,79 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "POST customer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/ld+json"
+          },
+          {
+            "key": "",
+            "value": ""
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstName\" : \"Joseph\",\r\n    \"lastName\" : \"Durand\",\r\n    \"email\" : \"Doud@SF.com\",\r\n    \"user\" : \"/api/users/40\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://127.0.0.1:8000/api/customers",
+          "protocol": "https",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "customers"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST invoice",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"amount\": \"httgt\",\r\n    \"chrono\": 1,\r\n    \"status\": \"SENT\",\r\n    \"sentAt\": \"2026-03-01\",\r\n    \"customer\": \"/api/customers/396\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://127.0.0.1:8000/api/invoices",
+          "protocol": "https",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "invoices"
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }
