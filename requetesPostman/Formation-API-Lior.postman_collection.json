@@ -320,7 +320,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"amount\": \"httgt\",\r\n    \"chrono\": 1,\r\n    \"status\": \"SENT\",\r\n    \"sentAt\": \"2026-03-01\",\r\n    \"customer\": \"/api/customers/396\"\r\n}",
+          "raw": "{\r\n    \"amount\": 4000,\r\n    \"chrono\": 4,\r\n    \"status\": \"SENT\",\r\n    \"sentAt\": \"2026-04-30\",\r\n    \"customer\": \"/api/customers/396\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -340,6 +340,38 @@
           "path": [
             "api",
             "invoices"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST user",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"firstName\": \"Edouard\",\r\n    \"lastName\": \"ANTHONY\",\r\n    \"email\": \"e@e.com\",\r\n    \"password\": \"toto\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://127.0.0.1:8000/api/users",
+          "protocol": "https",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "users"
           ]
         }
       },
