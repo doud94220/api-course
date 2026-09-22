@@ -26,10 +26,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     paginationItemsPerPage: 20,
     order: ['sentAt' => 'DESC'],
     normalizationContext: ['groups' => ['invoices_read']],
-    // denormalizationContext: [
-    //     'groups' => ['invoices_write'],
-    //     'disable_type_enforcement' => true
-    // ],
+    denormalizationContext: [
+        'groups' => ['invoices_write'],
+        'disable_type_enforcement' => true
+    ],
     operations: [//On liste les opérations utilisées => Dans la swagger, on ne vera que les opérations listées ci-dessous
         new Get(),
         new Post(
@@ -70,44 +70,44 @@ class Invoice
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource', 'invoices_write'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
-    #[Assert\NotBlank(message: "Le montant de la fature est obligatoire.")]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource', 'invoices_write'])]
+    #[Assert\NotBlank(message: "Le montant de la facture est obligatoire.")]
     #[Assert\Type(
         type: 'numeric',
-        message: 'Le montant de la fature doit être un numérique.',
+        message: 'Le montant de la facture doit être un numérique.',
     )]
-    private ?float $amount = null;
+    private $amount = null; //Je retire ?float pour que ce soit le Assert\Type() qui déclenche l'erreur
 
     #[ORM\Column]
-    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
-    #[Assert\DateTime(message: "La date doit être au format YYYY-MM-DD.")]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource', 'invoices_write'])]
+    #[Assert\Date(message: "La date doit être au format YYYY-MM-DD.")]
     #[Assert\NotBlank(message: "La date d'envoie est obligatoire.")]
-    private ?\DateTime $sentAt = null;
+    private $sentAt = null; //Je retire ?\DateTime pour que ce soit le Assert\Type() qui déclenche l'erreur
 
     #[ORM\Column(length: 255)]
-    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource', 'invoices_write'])]
     #[Assert\NotBlank(message: "Le statut est obligatoire.")]
     #[Assert\Choice(choices: ['SENT', 'PAID', 'CANCELLED'], message: 'Le statut doit être SENT ou PAID ou CANCELLED')]
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['invoices_read'])]
+    #[Groups(['invoices_read', 'invoices_write'])]
     #[Assert\NotBlank(message: "Le customer de la fature est obligatoire.")]
     private ?Customer $customer = null;
 
     #[ORM\Column]
-    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource'])]
+    #[Groups(['invoices_read', 'customers_read', 'invoices_subresource', 'invoices_write'])]
     #[Assert\NotBlank(message: "Le chrono est obligatoire.")]
     #[Assert\Type(
         type: 'integer',
         message: 'Le chrono doit être un integer.',
     )]
-    private ?int $chrono = null;
+    private $chrono = null; //Je retire ?int pour que ce soit le Assert\Type() qui déclenche l'erreur
 
     /**
      * Permet de récupérer le User à qui appartient la facture
@@ -130,19 +130,19 @@ class Invoice
         return $this->amount;
     }
 
-    public function setAmount($amount): static
+    public function setAmount($amount): static //Je retire float juste avant $amount pour que ce soit le Assert\Type() qui déclenche l'erreur
     {
         $this->amount = $amount;
 
         return $this;
     }
 
-    public function getSentAt(): ?\DateTime
+    public function getSentAt()//: ?\DateTime //JE COMMENTE POUR VOIR //Sinon je suis passé en Date, et non plus DateTime
     {
         return $this->sentAt;
     }
 
-    public function setSentAt(\DateTime $sentAt): static
+    public function setSentAt($sentAt): static //Je retire \DateTime juste avant $sentAt pour que ce soit le Assert\Type() qui déclenche l'erreur
     {
         $this->sentAt = $sentAt;
 
@@ -178,7 +178,7 @@ class Invoice
         return $this->chrono;
     }
 
-    public function setChrono(int $chrono): static
+    public function setChrono($chrono): static //Je retire int juste avant $amount pour que ce soit le Assert\Type() qui déclenche l'erreur
     {
         $this->chrono = $chrono;
 

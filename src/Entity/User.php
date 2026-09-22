@@ -10,9 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource]
+#[UniqueEntity('email', message: "Cet emailm est déjà pris !")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -22,7 +25,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['customers_read', 'invoices_read', 'invoices_subresource'])]    
+    #[Groups(['customers_read', 'invoices_read', 'invoices_subresource'])]
+    #[Assert\NotBlank(message: "L'email est obligatoire.")]
+    #[Assert\Email(message: "L'adresse mail {{ value }} n'est pas valide")]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -32,14 +37,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Le mdp est obligatoire.")]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customers_read', 'invoices_read', 'invoices_subresource'])]    
+    #[Groups(['customers_read', 'invoices_read', 'invoices_subresource'])]
+    #[Assert\NotBlank(message: "Le prénom est obligatoire.")]
+    #[Assert\Length(min: 3, minMessage: "Le prénom doit faire entre 3 et 255 caractères.", max: 255, maxMessage: "Le prénom doit faire entre 3 et 255 caractères.")]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customers_read', 'invoices_read', 'invoices_subresource'])]    
+    #[Groups(['customers_read', 'invoices_read', 'invoices_subresource'])]
+    #[Assert\NotBlank(message: "Le nom de famille est obligatoire.")]
+    #[Assert\Length(min: 3, minMessage: "Le nom de famille doit faire entre 3 et 255 caractères.", max: 255, maxMessage: "Le nom de famille doit faire entre 3 et 255 caractères.")]    
     private ?string $lastName = null;
 
     #[ORM\OneToMany(targetEntity: Customer::class, mappedBy: 'user')]
