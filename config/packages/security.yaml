@@ -14,13 +14,13 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        # ON L'A AJOUTE !
-        registration:
+        # ON L'A AJOUTE ! Registration doit être avant api
+        registration: # On donne le nom qu'on veut
             pattern: ^/api/users
-            # anonymous: true //Plus utlilisé à partir de la v 5.3 de SF
+            # anonymous: true //Plus utilisé à partir de la v 5.3 de SF
             stateless: true
             methods: [POST]
-        # ON L'A AJOUTE !     
+        # ON L'A AJOUTE ! login doit être avant api
         login:
             pattern: ^/api/login
             stateless: true
@@ -28,7 +28,7 @@ security:
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-        # ON L'A AJOUTE !                
+        # ON L'A AJOUTE ! //Mais finalement, c'est mieux de tout faire dans "access_control:" dixit Lior     
         api:
             pattern:   ^/api
             stateless: true
@@ -48,11 +48,14 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        # ON L'A AJOUTE ! (Trouvé sur les commentaires. La vidéo de Lior n'en parle pas.)
-        - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/users, methods: [POST], roles: PUBLIC_ACCESS }
-        - { path: ^/api/users, methods: [GET], roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+        # ON L'A AJOUTE !
+        # <<< L'ordre a une importance >>>
+        - { path: ^/api/login, roles: PUBLIC_ACCESS } # IS_AUTHENTICATED_ANONYMOUSLY est l'ancienne version de PUBLIC_ACCESS
+        - { path: ^/api/users, methods: [POST], roles: PUBLIC_ACCESS } # On pourrait enlever cette ligne car la ligne en dessous suffit
+        - { path: ^/api/users, methods: [GET, PUT, DELETE], roles: IS_AUTHENTICATED_FULLY }
+        - { path: /api, roles: PUBLIC_ACCESS } # Accès à la swagger
+        - { path: ^/api/customers, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/invoices, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

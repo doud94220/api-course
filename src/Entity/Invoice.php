@@ -21,6 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
+// NE PAS CREER 2 APiResource !!!
 #[ApiResource(
     paginationEnabled: true,
     paginationItemsPerPage: 20,
@@ -32,12 +33,23 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     operations: [//On liste les opérations utilisées => Dans la swagger, on ne vera que les opérations listées ci-dessous
         new Get(),
+        new Post(),
         new Post(
+            uriTemplate: '/invoices/{id}/increment', //Nouveau path qui servira à incrémenter le chrono d'une facture donnée
+            controller: InvoiceIncrementationController::class,
+            name: 'invoice_increment',
+            read: true, // API Platform récupère automatiquement l'entité Invoice grâce à l'{id} de l'URL
+            openapi: new Operation( //On enrichie les informations qui seront affichées dans la Swagger Interface
+                summary: 'Incrémente le numéro de facture',
+                description: "Incrémente le chrono d'une facture donnée"
+            ),
+            normalizationContext: ['groups' => ['invoices_read']]
         ),
+        new GetCollection(),
         new GetCollection(
             uriTemplate: 'customers/{id}/invoices', //Nouvelle URL ! Sinon /api est déjà ajouté automatiquement par APIP selon la config globale
             uriVariables: [
-                            // 'id' correspond au paramètre {id} de l'URL
+                            // id correspond au paramètre {id} de l'URL
                             // fromClass indique que l'on vient de Customer
                             // toProperty indique la propriété 'customer' dans Invoice, car c'est elle qui permet de remonter jusqu'au customer
                             'id' => new Link(fromClass: Customer::class, toProperty: 'customer')
@@ -48,21 +60,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Patch(),
         new Put()
     ]
-)]
-//Nouveau path qui servira à incrémenter le chrono d'une facture donnée
-#[ApiResource(operations: [
-    new Post(
-            uriTemplate: '/invoices/{id}/increment',
-            controller: InvoiceIncrementationController::class,
-            name: 'invoice_increment',
-            read: true, // API Platform récupère automatiquement l'entité Invoice grâce à l'{id} de l'URL
-            openapi: new Operation(//On enrichie les informations qui seront affichées dans la Swagger Interface
-                summary: 'Incrémente le numéro de facture',
-                description: "Incrémente le chrono d'une facture donnée"
-            )
-        )
-    ],
-    normalizationContext: ['groups' => ['invoices_read']]
 )]
 #[ApiFilter(OrderFilter::class, properties: ["amount", "sentAt"])]
 class Invoice
