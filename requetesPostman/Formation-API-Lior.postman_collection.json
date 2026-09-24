@@ -15,7 +15,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3OTAxNTg3MjIsImV4cCI6MTc5MDE2MjMyMiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGhpZXJyeTE4QGlmcmFuY2UuY29tIn0.Em2yfMQx-HlATQIt1uhJ8ZAGtLzobcpyaK-mjM6GPF_JBEQb_Kp2Iur0jgW0UBIjT4Kkr2b7ss5yeD8EnGsUK5n_lT5EhQMHIaal7wqjaoSijkpbKU65HwEWCxDJW0HZL9QSd2e63YbJeJzB_Tlw-Ydesf3gdcVBZHplFj5tscITVYPFxtZweOnt1g8HIzgZXAqnQA4Xw9BFxnKm8BBfoyShZH0PH3kenj4IQ4_d9rGKu2XI2AG-Cpkgc3KKKq2J39a0_Z46mxFIRHQ94WocgjCJz08CfOSgbo2JgtNLDzubjOzIzZf_pR8A5WGvX5t5VCy6B7YowyScIDqomZlIN7O-AhO1jVbJ6CcFK4Rvxqe44EtWZJ2Xqk_aD3j5PrONVp9SV4XrqYFzOyjE3GGb6UVQbblsFtlNIP9U1I-IEIou-TXUz-WDDMoFtJozqldnLx1fc8KXsGuaRIuDFCNJJ-zzaUGXqbWnVdG-N_7VpHGGFFDbN_-aLrY4VDdlNkZ_Gy9C1LaC8pzNksGwLNnQ1IyNICsPpYEk_nvdp0ZkdLYmadcZmwAsjRCiTaA1zOUXSCoVt0XMoMwE_alR_hDCXDUr_Ra-cWuoOVxP0YNwtU3Tjs6xNc2sYWQrZAuZ7um5xtz8egsaEFNbQAhlSQDMMFnDyr79urA0_rVcNJWiqIU",
+              "value": "{{json_web_token_0rs8}}i_j9vWkuLTZxe72yl9iNvltWiZCr1Scmj7qwDRDB7SsebNsq5FOIOpiFgCKaDJcy4UjCMhnPFfTGTsptjFqGRHAmqIKTv8r8IOiWBMAyCJ4pqJqgbvbKOd8GbSC-SiEhy7UnC3qzkUCX-ja8EJUI1xU0zDoKl8bYPROtJySvX7HBtICm7KeLm07-9cvFyvGOPhxRr5Dz4TuPE",
               "type": "string"
             }
           ]
@@ -217,6 +217,16 @@
     {
       "name": "GET ALL invoices",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_0rs8}}i_j9vWkuLTZxe72yl9iNvltWiZCr1Scmj7qwDRDB7SsebNsq5FOIOpiFgCKaDJcy4UjCMhnPFfTGTsptjFqGRHAmqIKTv8r8IOiWBMAyCJ4pqJqgbvbKOd8GbSC-SiEhy7UnC3qzkUCX-ja8EJUI1xU0zDoKl8bYPROtJySvX7HBtICm7KeLm07-9cvFyvGOPhxRr5Dz4TuPE",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [
           {
@@ -362,7 +372,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"firstName\": \"Lior\",\r\n    \"lastName\": \"CHAMLA\",\r\n    \"email\": \"newuser@toto.com\",\r\n    \"password\": \"password\"\r\n}",
+          "raw": "{\r\n    \"firstName\": \"hyhyyh\",\r\n    \"lastName\": \"hyhyhyhyh\",\r\n    \"email\": \"hyyhy@toto.com\",\r\n    \"password\": \"password\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -422,6 +432,16 @@
     {
       "name": "GET ALL users",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_0rs8}}i_j9vWkuLTZxe72yl9iNvltWiZCr1Scmj7qwDRDB7SsebNsq5FOIOpiFgCKaDJcy4UjCMhnPFfTGTsptjFqGRHAmqIKTv8r8IOiWBMAyCJ4pqJqgbvbKOd8GbSC-SiEhy7UnC3qzkUCX-ja8EJUI1xU0zDoKl8bYPROtJySvX7HBtICm7KeLm07-9cvFyvGOPhxRr5Dz4TuPE",
+              "type": "string"
+            }
+          ]
+        },
         "method": "GET",
         "header": [],
         "url": {
@@ -442,6 +462,20 @@
         "description": "Récupérer la liste des utilisateurs"
       },
       "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "json_web_token_00dk",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_14wx",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0rs8",
+      "secret": true
     }
   ]
 }
