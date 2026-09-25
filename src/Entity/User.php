@@ -12,10 +12,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\State\UserPasswordProcessor;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['users_read']]
+    normalizationContext: ['groups' => ['users_read']],
+    processor: UserPasswordProcessor::class //APIP Va aller lire le fichier UserPasswordProcessor.php
 )]
 #[UniqueEntity('email', message: "Cet email est déjà pris !")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface

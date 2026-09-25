@@ -222,7 +222,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "{{json_web_token_0rs8}}i_j9vWkuLTZxe72yl9iNvltWiZCr1Scmj7qwDRDB7SsebNsq5FOIOpiFgCKaDJcy4UjCMhnPFfTGTsptjFqGRHAmqIKTv8r8IOiWBMAyCJ4pqJqgbvbKOd8GbSC-SiEhy7UnC3qzkUCX-ja8EJUI1xU0zDoKl8bYPROtJySvX7HBtICm7KeLm07-9cvFyvGOPhxRr5Dz4TuPE",
+              "value": "{{json_web_token_18f5}}hoI2ZbDgJzkdX28e9LQLDMccEpmmzTjRb0zkFdwAHeamImADXrSj0A477quoM_5Rd6AMWTQ3Rm67ckHXJ3tyvJ6Qg4v4kxgH9YJ7DWR1heZcYYv5Qd5C6BH1lw3Nhj8E_WyGlDRROSNBT7y_W80nyQjSLU1ZuZBi4usvE44WXrePRCaTMvd5He6UCgVme-o2tcA3mtpOy6pjKv4iXjl2NbWWv6TtETTj9O-cP3zwOEE4qErmsEaNMBxyc3tOD-I1389oS6NabkOf8kGc-XCmTN7NS8BVNwqRg",
               "type": "string"
             }
           ]
@@ -372,7 +372,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"firstName\": \"hyhyyh\",\r\n    \"lastName\": \"hyhyhyhyh\",\r\n    \"email\": \"hyyhy@toto.com\",\r\n    \"password\": \"password\"\r\n}",
+          "raw": "{\r\n    \"firstName\": \"aaaa\",\r\n    \"lastName\": \"bbbb\",\r\n    \"email\": \"zzz@gbg.com\",\r\n    \"password\": \"password\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -475,6 +475,10 @@
     },
     {
       "key": "json_web_token_0rs8",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_18f5",
       "secret": true
     }
   ]
