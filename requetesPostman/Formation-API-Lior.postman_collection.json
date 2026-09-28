@@ -295,6 +295,16 @@
     {
       "name": "POST customer",
       "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_0uyv}}CrHtmjRSSBFaOMtU7cuiPAnOZdGuCu-n8B5l5MAutu8c4qIZKlQaBlqiPMeihDbJKz78SihBUgsGHDoUBRI4kUZZDwZ-lNYqRG_0KFzMis4WZyYs-9B6NE3QKxmWUufznsHdZANqVEN7C7EK88tQM0QNChFWiL9WE1WheuEaJwo3hhU8wYRz_QM5aVocKEFzTtBykz4",
+              "type": "string"
+            }
+          ]
+        },
         "method": "POST",
         "header": [
           {
@@ -308,7 +318,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"firstName\" : \"Joseph\",\r\n    \"lastName\" : \"Durand\",\r\n    \"email\" : \"Doud@SF.com\",\r\n    \"user\" : \"/api/users/40\"\r\n}",
+          "raw": "{\r\n    \"firstName\" : \"Ann2e\",\r\n    \"lastName\" : \"DUPOND2\",\r\n    \"email\" : \"adupond2@SF.com\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -479,6 +489,10 @@
     },
     {
       "key": "json_web_token_18f5",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0uyv",
       "secret": true
     }
   ]

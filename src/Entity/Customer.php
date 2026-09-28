@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\CustomerRepository;
+use App\State\CustomerUserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +26,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     // paginationEnabled: true,
     // paginationItemsPerPage: 5
-    normalizationContext: ['groups' => ['customers_read']] //On peut remplacer l'étiquette 'customers_read' par ce qu'on veut
+    normalizationContext: ['groups' => ['customers_read']], //On peut remplacer l'étiquette 'customers_read' par ce qu'on veut
+    processor: CustomerUserProcessor::class, //APIP Va aller lire le fichier UserPasswordProcessor.php
+    denormalizationContext: [
+        'groups' => ['customer_write'],
+        'disable_type_enforcement' => true
+    ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ["firstName" => 'partial', "lastName", "company", "invoices.id"])]
 #[ApiFilter(OrderFilter::class)]
@@ -38,19 +44,19 @@ class Customer
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customers_read', 'invoices_read'])]
+    #[Groups(['customers_read', 'invoices_read', 'customer_write'])]
     #[Assert\NotBlank(message: "Le prénom du customer est obligatoire.")]
     #[Assert\Length(min: 3, minMessage: "Le prénom doit faire entre 3 et 255 caractères.", max: 255, maxMessage: "Le prénom doit faire entre 3 et 255 caractères.")]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customers_read', 'invoices_read'])]
+    #[Groups(['customers_read', 'invoices_read', 'customer_write'])]
     #[Assert\NotBlank(message: "Le nom de famille du customer est obligatoire.")]
     #[Assert\Length(min: 3, minMessage: "Le nom de famille doit faire entre 3 et 255 caractères.", max: 255, maxMessage: "Le nom de famille doit faire entre 3 et 255 caractères.")]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['customers_read', 'invoices_read'])]
+    #[Groups(['customers_read', 'invoices_read', 'customer_write'])]
     #[Assert\NotBlank(message: "L'email du customer est obligatoire.")]
     #[Assert\Email(message: "L'adresse mail {{ value }} n'est pas valide")]
     private ?string $email = null;

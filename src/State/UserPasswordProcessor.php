@@ -16,7 +16,7 @@ Dès qu'une requête arrive sur une opération concernant un User, Symfony crée
 
 class UserPasswordProcessor implements ProcessorInterface
 {
-    //Truc inhabituel : les propriétés privées ne sont pas définis en dehorsdu constructeur, mais dedans !
+    //Truc inhabituel : les propriétés privées ne sont pas définis en dehors du constructeur, mais dedans !
 
     public function __construct(
         /*
